@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import useFetch from './composables/useFetch';
 import { useQuery } from '@tanstack/vue-query'
+import useLocalStorage from './composables/useLocalStorage';
 
 type Planet = {
   name: string,
@@ -39,9 +40,31 @@ const { isLoading, data } = useQuery<StarWarsApi<Planet[]>>({
   staleTime: 3000
 })
 
+
+
+type DemoType = {
+  key: string,
+  value: string
+
+}
+const demo1: DemoType = {
+  key: 'data',
+  value: 'hello'
+
+}
+const { data: mykey, set } = useLocalStorage<DemoType>('data')
+
+
+
 </script>
 
 <template>
+  <p>
+    {{ mykey ? mykey.value : 'no data' }}
+  </p>
+  <button @click="set(demo1)">
+
+  </button>
   <div v-if="isLoading">
     <p>chargement</p>
 
